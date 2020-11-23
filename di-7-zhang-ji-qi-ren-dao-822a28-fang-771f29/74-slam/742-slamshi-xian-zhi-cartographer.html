@@ -1,0 +1,3391 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>7.4.2 SLAM实现之cartographer · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="../75-ben-zhang-xiao-jie.html" />
+    
+    
+    <link rel="prev" href="741-slamshi-xian-zhi-hector-slm.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../../">
+            
+                <a href="../../">
+            
+                    
+                    Introduction
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" data-path="../../chapter1.html">
+            
+                <a href="../../chapter1.html">
+            
+                    
+                    第 1 章 ROS概述与环境搭建
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="../../chapter1/11-rosjian-jie-yu-an-zhuang.html">
+            
+                <a href="../../chapter1/11-rosjian-jie-yu-an-zhuang.html">
+            
+                    
+                    1.1 ROS简介
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1.1" data-path="../../chapter1/11-rosjian-jie-yu-an-zhuang/111rosgai-nian.html">
+            
+                <a href="../../chapter1/11-rosjian-jie-yu-an-zhuang/111rosgai-nian.html">
+            
+                    
+                    1.1.1ROS概念
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.2" data-path="../../chapter1/11-rosjian-jie-yu-an-zhuang/112rosshe-ji-mu-biao.html">
+            
+                <a href="../../chapter1/11-rosjian-jie-yu-an-zhuang/112rosshe-ji-mu-biao.html">
+            
+                    
+                    1.1.2ROS设计目标
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.1.3" data-path="../../chapter1/11-rosjian-jie-yu-an-zhuang/113rosfa-zhan-li-cheng.html">
+            
+                <a href="../../chapter1/11-rosjian-jie-yu-an-zhuang/113rosfa-zhan-li-cheng.html">
+            
+                    
+                    1.1.3ROS发展历程
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2" data-path="../../chapter1/12-roskai-fa-gong-ju-an-zhuang.html">
+            
+                <a href="../../chapter1/12-roskai-fa-gong-ju-an-zhuang.html">
+            
+                    
+                    1.2 ROS安装
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.2.1" data-path="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/121-an-zhuang-xu-ni-ji-ruan-jian.html">
+            
+                <a href="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/121-an-zhuang-xu-ni-ji-ruan-jian.html">
+            
+                    
+                    1.2.1 安装虚拟机软件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.2" data-path="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/122-xu-ni-yi-tai-zhu-ji.html">
+            
+                <a href="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/122-xu-ni-yi-tai-zhu-ji.html">
+            
+                    
+                    1.2.2 虚拟一台主机
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.3" data-path="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/123-an-zhuang-ubuntu.html">
+            
+                <a href="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/123-an-zhuang-ubuntu.html">
+            
+                    
+                    1.2.3 安装 ubuntu
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.4" data-path="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/124-an-zhuang-ros.html">
+            
+                <a href="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/124-an-zhuang-ros.html">
+            
+                    
+                    1.2.4 安装 ROS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.5" data-path="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/125-ce-shi-ros.html">
+            
+                <a href="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/125-ce-shi-ros.html">
+            
+                    
+                    1.2.5 测试 ROS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.2.6" data-path="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/127-zi-65993a-qi-ta-ros-ban-ben-an-zhuang.html">
+            
+                <a href="../../chapter1/12-roskai-fa-gong-ju-an-zhuang/127-zi-65993a-qi-ta-ros-ban-ben-an-zhuang.html">
+            
+                    
+                    1.2.6 资料:其他ROS版本安装
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="../../chapter1/13-rosji-cheng-kai-fa-huan-jing-da-jian.html">
+            
+                <a href="../../chapter1/13-rosji-cheng-kai-fa-huan-jing-da-jian.html">
+            
+                    
+                    1.3 ROS快速体验
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.3.1" data-path="../../chapter1/13-rosji-cheng-kai-fa-huan-jing-da-jian/131-helloworldshi-xian-jian-jie.html">
+            
+                <a href="../../chapter1/13-rosji-cheng-kai-fa-huan-jing-da-jian/131-helloworldshi-xian-jian-jie.html">
+            
+                    
+                    1.3.1 HelloWorld实现简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.2" data-path="../../chapter1/13-rosji-cheng-kai-fa-huan-jing-da-jian/131-helloworldc724829.html">
+            
+                <a href="../../chapter1/13-rosji-cheng-kai-fa-huan-jing-da-jian/131-helloworldc724829.html">
+            
+                    
+                    1.3.2 HelloWorld实现A(C++)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3.3" data-path="../../chapter1/13-rosji-cheng-kai-fa-huan-jing-da-jian/132-helloworldpython724829.html">
+            
+                <a href="../../chapter1/13-rosji-cheng-kai-fa-huan-jing-da-jian/132-helloworldpython724829.html">
+            
+                    
+                    1.3.3 HelloWorld实现B(Python)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4" data-path="../../chapter1/14-ros-ji-cheng-kai-fa-huan-jing-da-jian.html">
+            
+                <a href="../../chapter1/14-ros-ji-cheng-kai-fa-huan-jing-da-jian.html">
+            
+                    
+                    1.4 ROS集成开发环境搭建
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.4.1" data-path="../../chapter1/14-ros-ji-cheng-kai-fa-huan-jing-da-jian/141-an-zhuang-zhong-duan.html">
+            
+                <a href="../../chapter1/14-ros-ji-cheng-kai-fa-huan-jing-da-jian/141-an-zhuang-zhong-duan.html">
+            
+                    
+                    1.4.1 安装终端
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.2" data-path="../../chapter1/14-ros-ji-cheng-kai-fa-huan-jing-da-jian/142-an-zhuang-vscode.html">
+            
+                <a href="../../chapter1/14-ros-ji-cheng-kai-fa-huan-jing-da-jian/142-an-zhuang-vscode.html">
+            
+                    
+                    1.4.2 安装VScode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.4.3" data-path="../../chapter1/14-ros-ji-cheng-kai-fa-huan-jing-da-jian/143-launchwen-jian-yan-shi.html">
+            
+                <a href="../../chapter1/14-ros-ji-cheng-kai-fa-huan-jing-da-jian/143-launchwen-jian-yan-shi.html">
+            
+                    
+                    1.4.3 launch文件演示
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5" data-path="../../chapter1/15-ben-zhang-xiao-jie.html">
+            
+                <a href="../../chapter1/15-ben-zhang-xiao-jie.html">
+            
+                    
+                    1.5 ROS架构
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.5.1" data-path="../../chapter1/15-ben-zhang-xiao-jie/151-roswen-jian-xi-tong.html">
+            
+                <a href="../../chapter1/15-ben-zhang-xiao-jie/151-roswen-jian-xi-tong.html">
+            
+                    
+                    1.5.1 ROS文件系统
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.2" data-path="../../chapter1/15-ben-zhang-xiao-jie/152-ji-suan-tu.html">
+            
+                <a href="../../chapter1/15-ben-zhang-xiao-jie/152-ji-suan-tu.html">
+            
+                    
+                    1.5.2 ROS文件系统相关命令
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.5.3" data-path="../../chapter1/15-ben-zhang-xiao-jie/153-rosji-suan-tu.html">
+            
+                <a href="../../chapter1/15-ben-zhang-xiao-jie/153-rosji-suan-tu.html">
+            
+                    
+                    1.5.3 ROS计算图
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.6" data-path="../../chapter1/16-ben-zhang-xiao-jie.html">
+            
+                <a href="../../chapter1/16-ben-zhang-xiao-jie.html">
+            
+                    
+                    1.6 本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" data-path="../../di-2-zhang-ros-jia-gou-she-ji.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji.html">
+            
+                    
+                    第 2 章 ROS通信机制
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin.html">
+            
+                    
+                    2.1 话题通信
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1.1" data-path="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/211-li-lun-mo-xing.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/211-li-lun-mo-xing.html">
+            
+                    
+                    2.1.1 话题通信理论模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.2" data-path="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/212-hua-ti-tong-xin-zhi-c-shi-xian.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/212-hua-ti-tong-xin-zhi-c-shi-xian.html">
+            
+                    
+                    2.1.2 话题通信基本操作A(C++)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.3" data-path="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/213-hua-ti-tong-xin-zhi-python-shi-xian.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/213-hua-ti-tong-xin-zhi-python-shi-xian.html">
+            
+                    
+                    2.1.3 话题通信基本操作B(Python)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.4" data-path="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/214-hua-ti-tong-xin-zhi-zi-ding-yi-xiao-xi.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/214-hua-ti-tong-xin-zhi-zi-ding-yi-xiao-xi.html">
+            
+                    
+                    2.1.4 话题通信自定义msg
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.5" data-path="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/215-hua-ti-tong-xin-zhi-c-diao-yong-zi-ding-yi-xiao-xi.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/215-hua-ti-tong-xin-zhi-c-diao-yong-zi-ding-yi-xiao-xi.html">
+            
+                    
+                    2.1.5 话题通信自定义msg调用A(C++)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.1.6" data-path="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/216-hua-ti-tong-xin-zhi-python-diao-yong-zi-ding-yi-xiao-xi.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/22hua-ti-tong-xin/216-hua-ti-tong-xin-zhi-python-diao-yong-zi-ding-yi-xiao-xi.html">
+            
+                    
+                    2.1.6 话题通信自定义msg调用B(Python)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin.html">
+            
+                    
+                    2.2 服务通信
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.2.1" data-path="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin/221-fu-wu-tong-xin-li-lun-mo-xing.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin/221-fu-wu-tong-xin-li-lun-mo-xing.html">
+            
+                    
+                    2.2.1 服务通信理论模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.2" data-path="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin/222-fu-wu-tong-xin-zi-ding-yi-srv.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin/222-fu-wu-tong-xin-zi-ding-yi-srv.html">
+            
+                    
+                    2.2.2 服务通信自定义srv
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.3" data-path="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin/223-fu-wu-tong-xin-zi-ding-yi-srv-diao-yong-a-c-shi-73b029.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin/223-fu-wu-tong-xin-zi-ding-yi-srv-diao-yong-a-c-shi-73b029.html">
+            
+                    
+                    2.2.3 服务通信自定义srv调用A(C++)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2.4" data-path="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin/224-fu-wu-tong-xin-zi-ding-yi-srv-diao-yong-b-python.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/23-fu-wu-tong-xin/224-fu-wu-tong-xin-zi-ding-yi-srv-diao-yong-b-python.html">
+            
+                    
+                    2.2.4 服务通信自定义srv调用B(Python)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-can-shu-fu-wu-qi.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-can-shu-fu-wu-qi.html">
+            
+                    
+                    2.3 参数服务器
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.3.1" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-can-shu-fu-wu-qi/231-can-shu-fu-wu-qi-li-lun-mo-xing.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-can-shu-fu-wu-qi/231-can-shu-fu-wu-qi-li-lun-mo-xing.html">
+            
+                    
+                    2.3.1 参数服务器理论模型
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.2" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-can-shu-fu-wu-qi/232-can-shu-cao-zuo-a-c-++.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-can-shu-fu-wu-qi/232-can-shu-cao-zuo-a-c-++.html">
+            
+                    
+                    2.3.2 参数操作A(C++)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3.3" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-can-shu-fu-wu-qi/233-can-shu-caozuo-b-python.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-can-shu-fu-wu-qi/233-can-shu-caozuo-b-python.html">
+            
+                    
+                    2.3.3 参数操作B(Python)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling.html">
+            
+                    
+                    2.4 常用命令
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.4.1" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/241-rostopic.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/241-rostopic.html">
+            
+                    
+                    2.4.1 rosnode
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.2" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/242-rostopic.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/242-rostopic.html">
+            
+                    
+                    2.4.2 rostopic
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.3" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/243-rosservice.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/243-rosservice.html">
+            
+                    
+                    2.4.3 rosservice
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.4" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/244-rosmsg.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/244-rosmsg.html">
+            
+                    
+                    2.4.4 rosmsg
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.5" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/245-rossrv.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/245-rossrv.html">
+            
+                    
+                    2.4.5 rossrv
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4.6" data-path="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/246-rosparam.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/24-chang-yong-ming-ling/246-rosparam.html">
+            
+                    
+                    2.4.6 rosparam
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao.html">
+            
+                    
+                    2.5 通信机制实操
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.5.1" data-path="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao/251-shi-cao-01-hua-ti.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao/251-shi-cao-01-hua-ti.html">
+            
+                    
+                    2.5.1 实操01_话题发布
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.2" data-path="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao/252-shi-cao-02-hua-ti-ding-yue.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao/252-shi-cao-02-hua-ti-ding-yue.html">
+            
+                    
+                    2.5.2 实操02_话题订阅
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.3" data-path="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao/253-shi-cao-03-fu-wu-diao-yong.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao/253-shi-cao-03-fu-wu-diao-yong.html">
+            
+                    
+                    2.5.3 实操03_服务调用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5.4" data-path="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao/254-shi-cao-04-can-shu-she-zhi.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/25-tong-xin-ji-zhi-shi-cao/254-shi-cao-04-can-shu-she-zhi.html">
+            
+                    
+                    2.5.4 实操04_参数设置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../../di-2-zhang-ros-jia-gou-she-ji/26-tong-xin-ji-zhi-bi-jiao.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/26-tong-xin-ji-zhi-bi-jiao.html">
+            
+                    
+                    2.6 通信机制比较
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../../di-2-zhang-ros-jia-gou-she-ji/27-ben-zhang-xiao-jie.html">
+            
+                <a href="../../di-2-zhang-ros-jia-gou-she-ji/27-ben-zhang-xiao-jie.html">
+            
+                    
+                    2.7 本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" data-path="../../di-3-zhang-ros-chang-yong-zu-jian.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian.html">
+            
+                    
+                    第 3 章 ROS通信机制进阶
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin.html">
+            
+                    
+                    3.1 action通信
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1.1" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin/311-actiontong-xin-zi-ding-yi-action-wen-jian.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin/311-actiontong-xin-zi-ding-yi-action-wen-jian.html">
+            
+                    
+                    3.1.1 action通信自定义action文件
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.2" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin/312-actiontong-xin-zi-ding-yi-action-wen-jian-diao-yong-a-c-++.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin/312-actiontong-xin-zi-ding-yi-action-wen-jian-diao-yong-a-c-++.html">
+            
+                    
+                    3.1.2 action通信自定义action文件调用A(C++)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.3" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin/313-actiontong-xin-zi-ding-yi-action-wen-jian-diao-752828-python.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin/313-actiontong-xin-zi-ding-yi-action-wen-jian-diao-752828-python.html">
+            
+                    
+                    3.1.3 action通信自定义action文件调用(Python)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.1.4" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin/314-actiontong-xin-shi-cao.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/31-actiontong-xin/314-actiontong-xin-shi-cao.html">
+            
+                    
+                    3.1.4 action通信实操
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/32-dong-tai-pei-zhi-can-shu.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/32-dong-tai-pei-zhi-can-shu.html">
+            
+                    
+                    3.2 动态配置参数
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.2.1" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/32-dong-tai-pei-zhi-can-shu/321-dong-tai-pei-zhi-can-shu-ke-hu-duan.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/32-dong-tai-pei-zhi-can-shu/321-dong-tai-pei-zhi-can-shu-ke-hu-duan.html">
+            
+                    
+                    3.2.1 动态配置参数客户端
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.2" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/32-dong-tai-pei-zhi-can-shu/322-dong-tai-pei-zhi-can-shu-fu-wu-duan-a-c-++.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/32-dong-tai-pei-zhi-can-shu/322-dong-tai-pei-zhi-can-shu-fu-wu-duan-a-c-++.html">
+            
+                    
+                    3.2.2 动态配置参数服务端A(C++)
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2.3" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/32-dong-tai-pei-zhi-can-shu/323-dong-tai-pei-zhi-can-shu-fu-wu-duan-b-python.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/32-dong-tai-pei-zhi-can-shu/323-dong-tai-pei-zhi-can-shu-fu-wu-duan-b-python.html">
+            
+                    
+                    3.2.3 动态配置参数服务端B(Python)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../../di-3-zhang-ros-chang-yong-zu-jian/33-ben-zhang-xiao-jie.html">
+            
+                <a href="../../di-3-zhang-ros-chang-yong-zu-jian/33-ben-zhang-xiao-jie.html">
+            
+                    
+                    3.3 本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" data-path="../../5.html">
+            
+                <a href="../../5.html">
+            
+                    
+                    第 4 章 ROS运行管理
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../../5/41-rosyuan-gong-neng-bao.html">
+            
+                <a href="../../5/41-rosyuan-gong-neng-bao.html">
+            
+                    
+                    4.1 ROS元功能包
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian.html">
+            
+                    
+                    4.2 ROS节点管理launch文件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.2.1" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian/411-launchwen-jian-biao-qian-zhi-launch.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian/411-launchwen-jian-biao-qian-zhi-launch.html">
+            
+                    
+                    4.2.1 launch文件标签之launch
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.2" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian/412-launchwen-jian-biao-qian-zhi-node.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian/412-launchwen-jian-biao-qian-zhi-node.html">
+            
+                    
+                    4.2.2 launch文件标签之node
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.3" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian/411-launchwen-jian-biao-qian-zhi-include.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian/411-launchwen-jian-biao-qian-zhi-include.html">
+            
+                    
+                    4.2.3 launch文件标签之include
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.4" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian/414-launchwen-jian-biao-qian-zhi-remap.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian/414-launchwen-jian-biao-qian-zhi-remap.html">
+            
+                    
+                    4.2.4 launch文件标签之remap
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.5" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian/411-launchwen-jian-biao-qian-zhi-param.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian/411-launchwen-jian-biao-qian-zhi-param.html">
+            
+                    
+                    4.2.5 launch文件标签之param
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.6" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian/416-launchwen-jian-biao-qian-zhi-rosparam.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian/416-launchwen-jian-biao-qian-zhi-rosparam.html">
+            
+                    
+                    4.2.6 launch文件标签之rosparam
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.7" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian/417-launchwen-jian-biao-qian-zhi-group.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian/417-launchwen-jian-biao-qian-zhi-group.html">
+            
+                    
+                    4.2.7 launch文件标签之group
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2.8" data-path="../../5/45-rosjie-dianguan-li-launch-wen-jian/418-launchwen-jian-biao-qian-zhi-arg.html">
+            
+                <a href="../../5/45-rosjie-dianguan-li-launch-wen-jian/418-launchwen-jian-biao-qian-zhi-arg.html">
+            
+                    
+                    4.2.8 launch文件标签之arg
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../../5/41-rosgong-zuo-kong-jian-fu-gai.html">
+            
+                <a href="../../5/41-rosgong-zuo-kong-jian-fu-gai.html">
+            
+                    
+                    4.3 ROS工作空间覆盖
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../../5/42-rosjie-dian-ming-cheng-zhong-ming.html">
+            
+                <a href="../../5/42-rosjie-dian-ming-cheng-zhong-ming.html">
+            
+                    
+                    4.4 ROS节点名称重名
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.4.1" data-path="../../5/42-rosjie-dian-ming-cheng-zhong-ming/431-rosrun-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                <a href="../../5/42-rosjie-dian-ming-cheng-zhong-ming/431-rosrun-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                    
+                    4.4.1 rosrun设置命名空间与重映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4.2" data-path="../../5/42-rosjie-dian-ming-cheng-zhong-ming/432-launchwen-jian-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                <a href="../../5/42-rosjie-dian-ming-cheng-zhong-ming/432-launchwen-jian-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                    
+                    4.4.2 launch文件设置命名空间与重映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4.3" data-path="../../5/42-rosjie-dian-ming-cheng-zhong-ming/433-bian-ma-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                <a href="../../5/42-rosjie-dian-ming-cheng-zhong-ming/433-bian-ma-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                    
+                    4.4.3 编码设置命名空间与重映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../../5/43-roshua-ti-ming-cheng-zhong-ming.html">
+            
+                <a href="../../5/43-roshua-ti-ming-cheng-zhong-ming.html">
+            
+                    
+                    4.5 ROS话题名称设置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.5.1" data-path="../../5/43-roshua-ti-ming-cheng-zhong-ming/441-rosrunshe-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                <a href="../../5/43-roshua-ti-ming-cheng-zhong-ming/441-rosrunshe-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                    
+                    4.5.1 rosrun设置话题重映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5.2" data-path="../../5/43-roshua-ti-ming-cheng-zhong-ming/442-launchwen-jian-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                <a href="../../5/43-roshua-ti-ming-cheng-zhong-ming/442-launchwen-jian-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                    
+                    4.5.2 launch文件设置话题重映射
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5.3" data-path="../../5/43-roshua-ti-ming-cheng-zhong-ming/443-bian-ma-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                <a href="../../5/43-roshua-ti-ming-cheng-zhong-ming/443-bian-ma-she-zhi-ming-ming-kong-jian-yu-zhong-ying-she.html">
+            
+                    
+                    4.5.3 编码设置话题名称
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6" data-path="../../5/45-roscan-shu-ming-cheng-she-zhi.html">
+            
+                <a href="../../5/45-roscan-shu-ming-cheng-she-zhi.html">
+            
+                    
+                    4.6 ROS参数名称设置
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.6.1" data-path="../../5/45-roscan-shu-ming-cheng-she-zhi/451-rosrunshe-zhi-can-shu.html">
+            
+                <a href="../../5/45-roscan-shu-ming-cheng-she-zhi/451-rosrunshe-zhi-can-shu.html">
+            
+                    
+                    4.6.1 rosrun设置参数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6.2" data-path="../../5/45-roscan-shu-ming-cheng-she-zhi/452-launchwen-jian-she-zhi-can-shu.html">
+            
+                <a href="../../5/45-roscan-shu-ming-cheng-she-zhi/452-launchwen-jian-she-zhi-can-shu.html">
+            
+                    
+                    4.6.2 launch文件设置参数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.6.3" data-path="../../5/45-roscan-shu-ming-cheng-she-zhi/453-bian-ma-she-zhi-can-shu.html">
+            
+                <a href="../../5/45-roscan-shu-ming-cheng-she-zhi/453-bian-ma-she-zhi-can-shu.html">
+            
+                    
+                    4.6.3 编码设置参数
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.7" data-path="../../5/44-rosfen-bu-shi-tong-xin.html">
+            
+                <a href="../../5/44-rosfen-bu-shi-tong-xin.html">
+            
+                    
+                    4.7 ROS分布式通信
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.8" data-path="../../5/48-ben-zhang-xiao-jie.html">
+            
+                <a href="../../5/48-ben-zhang-xiao-jie.html">
+            
+                    
+                    4.8 本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" data-path="../../di-5-zhang-ji-qi-ren-dao-hang.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang.html">
+            
+                    
+                    第 5 章 ROS常用组件
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan.html">
+            
+                    
+                    5.1 TF坐标变换
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1.1" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/511-zuo-biao-msg-xiao-xi.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/511-zuo-biao-msg-xiao-xi.html">
+            
+                    
+                    5.1.1 坐标msg消息
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.2" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/512-jing-tai-zuo-biao-bian-huan.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/512-jing-tai-zuo-biao-bian-huan.html">
+            
+                    
+                    5.1.2 静态坐标变换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.3" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/513-dong-tai-zuo-biao-bian-huan.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/513-dong-tai-zuo-biao-bian-huan.html">
+            
+                    
+                    5.1.3 动态坐标变换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.4" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/514-duo-zuo-biao-bian-huan.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/514-duo-zuo-biao-bian-huan.html">
+            
+                    
+                    5.1.4 多坐标变换
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.5" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/515-zuo-biao-xi-guan-xi-cha-kan.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/515-zuo-biao-xi-guan-xi-cha-kan.html">
+            
+                    
+                    5.1.5 坐标系关系查看
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.6" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/516-tfzuo-biao-bian-huan-shi-cao.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/516-tfzuo-biao-bian-huan-shi-cao.html">
+            
+                    
+                    5.1.6 TF坐标变换实操
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.7" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/517-tf2yu-tf.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/517-tf2yu-tf.html">
+            
+                    
+                    5.1.7 TF2与TF
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.1.8" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/518-xiao-jie.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/51-tfzuo-biao-bian-huan/518-xiao-jie.html">
+            
+                    
+                    5.1.8 小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/52-rosbagshi-yong.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/52-rosbagshi-yong.html">
+            
+                    
+                    5.2 rosbag
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.2.1" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/52-rosbagshi-yong/521-rosbagshi-yong-ming-ling-xing.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/52-rosbagshi-yong/521-rosbagshi-yong-ming-ling-xing.html">
+            
+                    
+                    5.2.1 rosbag使用_命令行
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.2" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/52-rosbagshi-yong/522-rosbagshi-yong-bian-ma.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/52-rosbagshi-yong/522-rosbagshi-yong-bian-ma.html">
+            
+                    
+                    5.2.2 rosbag使用_编码
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2.3" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/52-rosbagshi-yong/523-rosbagshi-cao.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/52-rosbagshi-yong/523-rosbagshi-cao.html">
+            
+                    
+                    5.2.3 rosbag实操
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang.html">
+            
+                    
+                    5.3 rqt工具箱
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.3.1" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/531-rqtan-zhuang-qi-dong-yu-ji-ji-ben-shi-yong.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/531-rqtan-zhuang-qi-dong-yu-ji-ji-ben-shi-yong.html">
+            
+                    
+                    5.3.1 rqt安装启动与及基本使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.2" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/532-rqtchang-yongcha-jian-rqt-graph.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/532-rqtchang-yongcha-jian-rqt-graph.html">
+            
+                    
+                    5.3.2 rqt常用插件:rqt_graph
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.3" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/533-rqtchang-yong-cha-4ef63a-rqt-console.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/533-rqtchang-yong-cha-4ef63a-rqt-console.html">
+            
+                    
+                    5.3.3 rqt常用插件:rqt_console
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.4" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/534-rqtchang-yong-cha-4ef63a-rqt-plot.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/534-rqtchang-yong-cha-4ef63a-rqt-plot.html">
+            
+                    
+                    5.3.4 rqt常用插件:rqt_plot
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3.5" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/535-rqtchang-yong-cha-4ef63a-rqt-bag.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/53-rqtgong-ju-xiang/535-rqtchang-yong-cha-4ef63a-rqt-bag.html">
+            
+                    
+                    5.3.5 rqt常用插件:rqt_bag
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../../di-5-zhang-ji-qi-ren-dao-hang/54-ben-zhang-xiao-jie.html">
+            
+                <a href="../../di-5-zhang-ji-qi-ren-dao-hang/54-ben-zhang-xiao-jie.html">
+            
+                    
+                    5.4 本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen.html">
+            
+                    
+                    第 6 章 机器人系统仿真
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.1" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/61-gai-shu.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/61-gai-shu.html">
+            
+                    
+                    6.1 概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.2" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz.html">
+            
+                    
+                    6.2 URDF集成Rviz基本流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/622-urdfyu-fa-xiang-jie.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/622-urdfyu-fa-xiang-jie.html">
+            
+                    
+                    6.3 URDF语法详解
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.3.1" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/623-urdfyu-fa-xiang-jie-robot.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/623-urdfyu-fa-xiang-jie-robot.html">
+            
+                    
+                    6.3.1 URDF语法详解01_robot
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.2" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/624-urdfyu-fa-xiang-jie-02-link.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/624-urdfyu-fa-xiang-jie-02-link.html">
+            
+                    
+                    6.3.2 URDF语法详解02_link
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.3" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/625-urdfyu-fa-xiang-jie-03-joint.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/625-urdfyu-fa-xiang-jie-03-joint.html">
+            
+                    
+                    6.3.3 URDF语法详解03_joint
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.4" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/634-urdflian-xi.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/62-fang-zhen-urdf-ji-cheng-rviz/634-urdflian-xi.html">
+            
+                    
+                    6.3.4 URDF练习
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.3.5" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/63-fang-zhen-urdf-ji-cheng-gazebo.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/63-fang-zhen-urdf-ji-cheng-gazebo.html">
+            
+                    
+                    6.3.5 URDF工具
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong.html">
+            
+                    
+                    6.4 URDF优化_xacro
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.4.1" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong/651-xacrokuai-su-ti-yan.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong/651-xacrokuai-su-ti-yan.html">
+            
+                    
+                    6.4.1 Xacro_快速体验
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4.2" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong/652-xacroyu-fa-xiang-jie.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong/652-xacroyu-fa-xiang-jie.html">
+            
+                    
+                    6.4.2 Xacro_语法详解
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4.3" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong/653-xacrowan-zheng-shi-yong-liu-cheng-shi-li.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong/653-xacrowan-zheng-shi-yong-liu-cheng-shi-li.html">
+            
+                    
+                    6.4.3 Xacro_完整使用流程示例
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.4.4" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong/654-xacroshi-cao.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/64-fang-zhen-urdf-rviz-yu-gazebo-zong-he-ying-yong/654-xacroshi-cao.html">
+            
+                    
+                    6.4.4 Xacro_实操
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-rviz-kong-zhi-ji-qi-ren-mo-xing-yun-dong.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-rviz-kong-zhi-ji-qi-ren-mo-xing-yun-dong.html">
+            
+                    
+                    6.5 Rviz控制机器人模型运动
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.5.1" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-rviz-kong-zhi-ji-qi-ren-mo-xing-yun-dong/661-arbotixshi-yong-liu-cheng.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-rviz-kong-zhi-ji-qi-ren-mo-xing-yun-dong/661-arbotixshi-yong-liu-cheng.html">
+            
+                    
+                    6.5.1 Arbotix使用流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.5.2" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-rviz-kong-zhi-ji-qi-ren-mo-xing-yun-dong/662-noetic-xia-an-zhuang-arbotix.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-rviz-kong-zhi-ji-qi-ren-mo-xing-yun-dong/662-noetic-xia-an-zhuang-arbotix.html">
+            
+                    
+                    6.5.2 Noetic下安装Arbotix
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo.html">
+            
+                    
+                    6.6 URDF集成Gazebo
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.6.1" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo/661-urdf-yu-gazebo-ji-ben-ji-cheng-liu-cheng.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo/661-urdf-yu-gazebo-ji-ben-ji-cheng-liu-cheng.html">
+            
+                    
+                    6.6.1 URDF与Gazebo基本集成流程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.2" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo/662-urdf-ji-cheng-gazebo-xiang-guan-she-zhi.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo/662-urdf-ji-cheng-gazebo-xiang-guan-she-zhi.html">
+            
+                    
+                    6.6.2 URDF集成Gazebo相关设置
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.3" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo/663-urdfji-cheng-gazebo-shi-cao.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo/663-urdfji-cheng-gazebo-shi-cao.html">
+            
+                    
+                    6.6.3 URDF集成Gazebo实操
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.6.4" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo/664-gazebofang-zhen-huan-jing-da-jian.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/66-urdfji-cheng-gazebo/664-gazebofang-zhen-huan-jing-da-jian.html">
+            
+                    
+                    6.6.4 Gazebo仿真环境搭建
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67.html">
+            
+                    
+                    6.7 URDF、Gazebo与Rviz综合应用
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.7.7.1" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67/671-ji-qi-ren-yun-dong-kong-zhi-yi-ji-li-cheng-ji-xin-xi-xian-shi.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67/671-ji-qi-ren-yun-dong-kong-zhi-yi-ji-li-cheng-ji-xin-xi-xian-shi.html">
+            
+                    
+                    6.7.1 机器人运动控制以及里程计信息显示
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7.2" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67/672-lei-da-xin-xi-fang-zhen-yi-ji-xian-shi.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67/672-lei-da-xin-xi-fang-zhen-yi-ji-xian-shi.html">
+            
+                    
+                    6.7.2 雷达信息仿真以及显示
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7.3" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67/673-she-xiang-tou-xin-xi-fang-zhen-yi-ji-xian-shi.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67/673-she-xiang-tou-xin-xi-fang-zhen-yi-ji-xian-shi.html">
+            
+                    
+                    6.7.3 摄像头信息仿真以及显示
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.7.4" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67/674-kinectxin-xi-fang-zhen-yi-ji-xian-shi.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/67/674-kinectxin-xi-fang-zhen-yi-ji-xian-shi.html">
+            
+                    
+                    6.7.4 kinect信息仿真以及显示
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7.8" data-path="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/68-ben-zhang-xiao-jie.html">
+            
+                <a href="../../di-6-zhang-ji-qi-ren-xi-tong-fang-zhen/68-ben-zhang-xiao-jie.html">
+            
+                    
+                    6.8 本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8" data-path="../../di-7-zhang-ji-qi-ren-dao-822a28-fang-771f29.html">
+            
+                <a href="../../di-7-zhang-ji-qi-ren-dao-822a28-fang-771f29.html">
+            
+                    
+                    第 7 章 机器人导航(仿真)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.1" data-path="../71-gai-shu.html">
+            
+                <a href="../71-gai-shu.html">
+            
+                    
+                    7.1 概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2" data-path="../72-dao-hang-shi-xian.html">
+            
+                <a href="../72-dao-hang-shi-xian.html">
+            
+                    
+                    7.2 导航实现
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.2.1" data-path="../72-dao-hang-shi-xian/721-dao-hang-shi-xian-01-slam.html">
+            
+                <a href="../72-dao-hang-shi-xian/721-dao-hang-shi-xian-01-slam.html">
+            
+                    
+                    7.2.1 导航实现01_SLAM建图
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2.2" data-path="../72-dao-hang-shi-xian/722-dao-hang-shi-xian-02-ding-wei.html">
+            
+                <a href="../72-dao-hang-shi-xian/722-dao-hang-shi-xian-02-ding-wei.html">
+            
+                    
+                    7.2.2 导航实现02_地图服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2.3" data-path="../72-dao-hang-shi-xian/723-dao-hang-shi-xian-03-lu-jing-gui-hua.html">
+            
+                <a href="../72-dao-hang-shi-xian/723-dao-hang-shi-xian-03-lu-jing-gui-hua.html">
+            
+                    
+                    7.2.3 导航实现03_定位
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2.4" data-path="../72-dao-hang-shi-xian/724-dao-hang-shi-xian-04-lu-jing-gui-hua.html">
+            
+                <a href="../72-dao-hang-shi-xian/724-dao-hang-shi-xian-04-lu-jing-gui-hua.html">
+            
+                    
+                    7.2.4 导航实现04_路径规划
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.2.5" data-path="../72-dao-hang-shi-xian/725-dao-hang-yu-slam-jian-tu.html">
+            
+                <a href="../72-dao-hang-shi-xian/725-dao-hang-yu-slam-jian-tu.html">
+            
+                    
+                    7.2.5 导航与SLAM建图
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.3" data-path="../73-slamzhuan-ti.html">
+            
+                <a href="../73-slamzhuan-ti.html">
+            
+                    
+                    7.3 深度图像转激光数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.4" data-path="../74-slam.html">
+            
+                <a href="../74-slam.html">
+            
+                    
+                    7.4 SLAM
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.8.4.1" data-path="741-slamshi-xian-zhi-hector-slm.html">
+            
+                <a href="741-slamshi-xian-zhi-hector-slm.html">
+            
+                    
+                    7.4.1 SLAM实现之hector_slm
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.8.4.2" data-path="742-slamshi-xian-zhi-cartographer.html">
+            
+                <a href="742-slamshi-xian-zhi-cartographer.html">
+            
+                    
+                    7.4.2 SLAM实现之cartographer
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.8.5" data-path="../75-ben-zhang-xiao-jie.html">
+            
+                <a href="../75-ben-zhang-xiao-jie.html">
+            
+                    
+                    7.5 本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren.html">
+            
+                    
+                    第 8 章 机器人平台设计
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.1" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu.html">
+            
+                    
+                    8.1 概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino.html">
+            
+                    
+                    8.2 机器人平台设计之arduino基础
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.2.1" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/81-arduino-kai-fa-huan-jing-da-jian.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/81-arduino-kai-fa-huan-jing-da-jian.html">
+            
+                    
+                    8.2.1 arduino 开发环境搭建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2.2" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/822-arduino-helloworld.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/822-arduino-helloworld.html">
+            
+                    
+                    8.2.2 arduino 基本语法概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2.3" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/823-arduino-ji-ben-yu-fa-yan-shi.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/823-arduino-ji-ben-yu-fa-yan-shi.html">
+            
+                    
+                    8.2.3 arduino 基本语法演示01
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2.4" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/824-arduino-ji-ben-yu-fa-yan-shi-02.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/824-arduino-ji-ben-yu-fa-yan-shi-02.html">
+            
+                    
+                    8.2.4 arduino 基本语法演示02
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.2.5" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/825-arduino-ji-ben-yu-fa-yan-shi-03.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/82-di-pan-kong-zhi-arduino/825-arduino-ji-ben-yu-fa-yan-shi-03.html">
+            
+                    
+                    8.2.5 arduino 基本语法演示03
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong.html">
+            
+                    
+                    8.3 机器人平台设计之arduino与电机驱动
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.3.1" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/831.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/831.html">
+            
+                    
+                    8.3.1 硬件_电机与电机驱动板简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3.2" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/832-dian-ji-ji-ben-kong-zhi-shi-xian.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/832-dian-ji-ji-ben-kong-zhi-shi-xian.html">
+            
+                    
+                    8.3.2 电机基本控制实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3.3" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/833-dian-ji-ce-su.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/833-dian-ji-ce-su.html">
+            
+                    
+                    8.3.3 电机测速01_理论
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3.4" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/833-dian-ji-ce-su-02-shi-xian.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/833-dian-ji-ce-su-02-shi-xian.html">
+            
+                    
+                    8.3.4 电机测速02_实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3.5" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/835-dian-ji-diao-su.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/835-dian-ji-diao-su.html">
+            
+                    
+                    8.3.5 电机调速01_PID控制理论
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.3.6" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/836-dian-ji-diao-su-02-pid-kong-zhi-shi-xian.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi-ji-chu-arduino-yu-dian-ji-qu-dong/836-dian-ji-diao-su-02-pid-kong-zhi-shi-xian.html">
+            
+                    
+                    8.3.6 电机调速02_PID控制实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi.html">
+            
+                    
+                    8.4 机器人平台设计之Arduino与ROS通信
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.4.1" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi/831-arduino-yu-ros-jiao-hu-ji-ben-liu-cheng.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi/831-arduino-yu-ros-jiao-hu-ji-ben-liu-cheng.html">
+            
+                    
+                    8.4.1 Arduino与ROS通信_rosserial简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4.2" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi/832-arduino-yu-ros-jiao-hu-fa-bu.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi/832-arduino-yu-ros-jiao-hu-fa-bu.html">
+            
+                    
+                    8.4.2 Arduino与ROS通信_发布
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.4.3" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi/833-arduino-yu-ros-jiao-hu-ding-yue.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/83-di-pan-kong-zhi/833-arduino-yu-ros-jiao-hu-ding-yue.html">
+            
+                    
+                    8.4.3 Arduino与ROS通信_订阅
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai.html">
+            
+                    
+                    8.5 机器人平台设计之底盘实现(上)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.5.1" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/851-ying-jian-zu-zhuang.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/851-ying-jian-zu-zhuang.html">
+            
+                    
+                    8.5.1 硬件组装
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5.2" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/852-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-01.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/852-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-01.html">
+            
+                    
+                    8.5.2 基于rosserialarduino的底盘实现概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5.3" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/853-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-01-kuang-jia-da-jian.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/853-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-01-kuang-jia-da-jian.html">
+            
+                    
+                    8.5.3 基于rosserial_arduino的底盘实现_01框架搭建
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5.4" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/854-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-02-dian-ji-zhuan-xiang-kong-zhi.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/854-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-02-dian-ji-zhuan-xiang-kong-zhi.html">
+            
+                    
+                    8.5.4 基于rosserial_arduino的底盘实现_02电机转向控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5.5" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/855-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-03-ce-su.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/855-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-03-ce-su.html">
+            
+                    
+                    8.5.5 基于rosserial_arduino的底盘实现_03测速
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5.6" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/856-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-04-diao-su.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/856-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-04-diao-su.html">
+            
+                    
+                    8.5.6 基于rosserial_arduino的底盘实现_04调速
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.5.7" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/857-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-05ros-duan.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/84-shu-mei-pai/857-cheng-xu-she-ji-ce-lve-a-zi-shi-xian-05ros-duan.html">
+            
+                    
+                    8.5.7 基于rosserial_arduino的底盘实现_05ROS端
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.6" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29.html">
+            
+                    
+                    8.6 机器人平台设计之底盘实现(下)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.6.1" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/861-rosarduino-bridge-xia-zai-yu-an-zhuang.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/861-rosarduino-bridge-xia-zai-yu-an-zhuang.html">
+            
+                    
+                    8.6.1 基于rosarduino_bridge的底盘实现概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.6.2" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/862-ji-yu-ros-arduino-bridge-de-di-panshi-xian-01arduino-duan-ru-kou.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/862-ji-yu-ros-arduino-bridge-de-di-panshi-xian-01arduino-duan-ru-kou.html">
+            
+                    
+                    8.6.2 基于ros_arduino_bridge的底盘实现_01Arduino端入口
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.6.3" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/863-ji-yu-ros-arduino-bridge-de-di-panshi-xian-02arduino-duan-dian-ji-qu-dong.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/863-ji-yu-ros-arduino-bridge-de-di-panshi-xian-02arduino-duan-dian-ji-qu-dong.html">
+            
+                    
+                    8.6.3 基于ros_arduino_bridge的底盘实现_02Arduino端编码器驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.6.4" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/864-ji-yu-ros-arduino-bridge-de-di-panshi-xian-02arduino-duan-dian-ji-qu-dong.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/864-ji-yu-ros-arduino-bridge-de-di-panshi-xian-02arduino-duan-dian-ji-qu-dong.html">
+            
+                    
+                    8.6.4 基于ros_arduino_bridge的底盘实现_03Arduino端电机驱动
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.6.5" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/865-ji-yu-ros-arduino-bridge-de-di-panshi-xian-04arduino-duan-pid-kong-zhi.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/865-ji-yu-ros-arduino-bridge-de-di-panshi-xian-04arduino-duan-pid-kong-zhi.html">
+            
+                    
+                    8.6.5 基于ros_arduino_bridge的底盘实现_04Arduino端PID控制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.6.6" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/866-ji-yu-ros-arduino-bridge-de-di-pan-shi-xian-05ros-duan-pei-zhi.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/86-ji-qi-ren-ping-tai-she-ji-zhi-di-pan-shi-73b028-4e0b29/866-ji-yu-ros-arduino-bridge-de-di-pan-shi-xian-05ros-duan-pei-zhi.html">
+            
+                    
+                    8.6.6 基于ros_arduino_bridge的底盘实现_05ROS端配置
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.7" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong.html">
+            
+                    
+                    8.7 机器人平台设计之控制系统
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.7.1" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/871-kong-zhi-xi-tong-shi-xian.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/871-kong-zhi-xi-tong-shi-xian.html">
+            
+                    
+                    8.7.1 控制系统实现_树莓派概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.7.2" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/872-kong-zhi-xi-tong-shi-xian-shu-mei-pai-an-zhuang-ros.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/872-kong-zhi-xi-tong-shi-xian-shu-mei-pai-an-zhuang-ros.html">
+            
+                    
+                    8.7.2 控制系统实现_树莓派安装ROS
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.7.3" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/873-kong-zhi-xi-tong-shi-xian-fen-bu-shi-kuang-jia-da-jian.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/873-kong-zhi-xi-tong-shi-xian-fen-bu-shi-kuang-jia-da-jian.html">
+            
+                    
+                    8.7.3 控制系统实现_分布式框架
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.7.4" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/874-kong-zhi-xi-tong-shi-xian-cheng-xu-shang-chuan.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/874-kong-zhi-xi-tong-shi-xian-cheng-xu-shang-chuan.html">
+            
+                    
+                    8.7.4 控制系统实现_程序上传
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.7.5" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/875kong-zhi-xi-tong-shixian-rosarduinobridge-shang-chuan-zhi-shu-mei-pai.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/87-ji-qi-ren-ping-tai-she-ji-zhi-kong-zhi-xi-tong/875kong-zhi-xi-tong-shixian-rosarduinobridge-shang-chuan-zhi-shu-mei-pai.html">
+            
+                    
+                    8.7.5控制系统实现_rosArduinoBridge上传至树莓派
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.8" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi.html">
+            
+                    
+                    8.8 机器人平台设计之传感器
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.9.8.1" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/881.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/881.html">
+            
+                    
+                    8.8.1 传感器_激光雷达简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.8.2" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/882-chuan-gan-qi-shen-du-xiang-ji.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/882-chuan-gan-qi-shen-du-xiang-ji.html">
+            
+                    
+                    8.8.2 传感器_激光雷达使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.8.3" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/883-chuan-gan-qi-shen-du-xiang-ji-jian-jie.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/883-chuan-gan-qi-shen-du-xiang-ji-jian-jie.html">
+            
+                    
+                    8.8.3 传感器_深度相机简介
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.8.4" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/884-chuan-gan-qi-shen-du-xiang-ji-shi-yong.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/884-chuan-gan-qi-shen-du-xiang-ji-shi-yong.html">
+            
+                    
+                    8.8.4 传感器_深度相机使用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.8.5" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/885-chuan-gan-qi-zu-zhuang.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/81-gai-shu/88-ji-qi-ren-ping-tai-she-ji-zhi-chuan-gan-qi/885-chuan-gan-qi-zu-zhuang.html">
+            
+                    
+                    8.8.5 传感器_集成
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.9.9" data-path="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/89-ben-zhang-xiao-jie.html">
+            
+                <a href="../../di-8-zhang-gou-jian-lun-shi-cha-fen-ji-qi-ren/89-ben-zhang-xiao-jie.html">
+            
+                    
+                    8.9 本章小结
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10" data-path="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329.html">
+            
+                <a href="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329.html">
+            
+                    
+                    第 9 章 机器人导航(实体)
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/91-gai-shu.html">
+            
+                <a href="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/91-gai-shu.html">
+            
+                    
+                    9.1 概述
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/92-dao-hang-shi-xian.html">
+            
+                <a href="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/92-dao-hang-shi-xian.html">
+            
+                    
+                    9.2 导航实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.3" data-path="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/93-shen-du-tu-xiang-zhuan-ji-guang-shu-ju.html">
+            
+                <a href="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/93-shen-du-tu-xiang-zhuan-ji-guang-shu-ju.html">
+            
+                    
+                    9.3 深度图像转激光数据
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.4" data-path="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/94-slam.html">
+            
+                <a href="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/94-slam.html">
+            
+                    
+                    9.4 SLAM
+            
+                </a>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.4.1" data-path="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/94-slam/941-slamshi-xian-zhi-hector-slm.html">
+            
+                <a href="../../di-9-zhang-ji-qi-ren-dao-822a28-shi-4f5329/94-slam/941-slamshi-xian-zhi-hector-slm.html">
+            
+                    
+                    9.4.1 SLAM实现之hector_slm
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.5" >
+            
+                <span>
+            
+                    
+                    9.5 本章小结
+            
+                </span>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../.." >7.4.2 SLAM实现之cartographer</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h3 id="742-slam&#x5B9E;&#x73B0;&#x4E4B;cartographer">7.4.2 SLAM&#x5B9E;&#x73B0;&#x4E4B;cartographer</h3>
+<h4 id="1cartographer&#x7B80;&#x4ECB;">1.cartographer&#x7B80;&#x4ECB;</h4>
+<p>cartographer&#x662F;Google&#x5F00;&#x6E90;&#x7684;&#xFF0C;&#x53EF;&#x4E0E;ROS&#x96C6;&#x6210;&#x7684;&#xFF0C;&#x53EF;&#x8DE8;&#x591A;&#x5E73;&#x53F0;&#x548C;&#x591A;&#x4F20;&#x611F;&#x5668;&#x914D;&#x7F6E;&#x63D0;&#x4F9B;2D&#x548C;3D&#x5B9E;&#x65F6;SLAM &#x7684;&#x7CFB;&#x7EDF;&#x5B9E;&#x73B0;&#x3002;</p>
+<blockquote>
+<p>&#x5B89;&#x88C5;&#x547D;&#x4EE4;</p>
+<pre><code>sudo apt-get install ros-melodic-cartographer*
+</code></pre></blockquote>
+<p>cartographer&#x5B89;&#x88C5;&#x4E5F;&#x53EF;&#x53C2;&#x8003;&#x5B98;&#x7F51;&#x5B89;&#x88C5;&#x65B9;&#x5F0F;&#xFF0C;&#x94FE;&#x63A5;:<a href="https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html#building-installation" target="_blank">https://google-cartographer-ros.readthedocs.io/en/latest/compilation.html#building-installation</a></p>
+<h4 id="2cartographer&#x8282;&#x70B9;&#x8BF4;&#x660E;">2.cartographer&#x8282;&#x70B9;&#x8BF4;&#x660E;</h4>
+<p>cartographer&#x529F;&#x80FD;&#x5305;&#x4E2D;&#x7684;&#x6838;&#x5FC3;&#x529F;&#x80FD;&#x5305;&#x662F;:cartographer_ros&#xFF0C;cartographer_ros&#x7684;&#x6838;&#x5FC3;&#x8282;&#x70B9;&#x662F;:cartographer_node&#xFF0C;&#x4E3A;&#x4E86;&#x65B9;&#x4FBF;&#x8C03;&#x7528;&#xFF0C;&#x9700;&#x8981;&#x5148;&#x4E86;&#x89E3;&#x8BE5;&#x8282;&#x70B9;&#x8BA2;&#x9605;&#x7684;&#x8BDD;&#x9898;&#x3001;&#x53D1;&#x5E03;&#x7684;&#x8BDD;&#x9898;&#x3001;&#x670D;&#x52A1;&#x4EE5;&#x53CA;&#x76F8;&#x5173;&#x53C2;&#x6570;&#x3002;</p>
+<p>&#x5B98;&#x65B9;&#x6587;&#x6863;&#x94FE;&#x63A5;:<a href="https://google-cartographer-ros.readthedocs.io/en/latest/ros_api.html" target="_blank">https://google-cartographer-ros.readthedocs.io/en/latest/ros_api.html</a></p>
+<h5 id="21&#x8BA2;&#x9605;&#x7684;topic">2.1&#x8BA2;&#x9605;&#x7684;Topic</h5>
+<p>&#x5B9A;&#x4F4D;&#x4E0E;&#x5EFA;&#x56FE;&#x4F9D;&#x8D56;&#x4E8E;&#x6DF1;&#x5EA6;&#x4FE1;&#x606F;&#xFF0C;cartographer_node&#x53EF;&#x4EE5;&#x8BA2;&#x9605;&#x4EE5;&#x4E0B;&#x4E09;&#x4E2A;&#x8BDD;&#x9898;&#x7684;&#x6D88;&#x606F;&#xFF0C;&#x4F7F;&#x7528;&#x65F6;&#x81F3;&#x5C11;&#x63D0;&#x4F9B;&#x5176;&#x4E2D;&#x4E4B;&#x4E00;&#xFF0C;&#x4E0D;&#x8FC7;&#x8FD9;&#x4E9B;&#x8BDD;&#x9898;&#x662F;&#x4E92;&#x65A5;&#x7684;&#x3002;</p>
+<p>scan (sensor_msgs/LaserScan)</p>
+<ul>
+<li>&#x652F;&#x6301;2D&#x548C;3D&#xFF08;&#x4F8B;&#x5982;&#xFF0C;&#x4F7F;&#x7528;&#x8F74;&#x5411;&#x65CB;&#x8F6C;&#x7684;&#x5E73;&#x9762;&#x6FC0;&#x5149;&#x626B;&#x63CF;&#x4EEA;&#xFF09;&#x3002;&#x5982;&#x679C;&#x5728;Lua&#x914D;&#x7F6E;&#x53C2;&#x8003;&#x6587;&#x6863;<em>&#x4E2D;&#x5C06;num_laser_scans</em>&#x8BBE;&#x7F6E;&#x4E3A;1&#xFF0C;&#x5219;&#x672C;&#x4E3B;&#x9898;&#x5C06;&#x7528;&#x4F5C;SLAM&#x7684;&#x8F93;&#x5165;&#x3002;&#x5982;&#x679C;<em>num_laser_scans</em>&#x5927;&#x4E8E;1&#xFF0C;<em>&#x5219;&#x5C06;&#x4F7F;&#x7528;</em>&#x591A;&#x4E2A;&#x7F16;&#x53F7;&#x7684;&#x626B;&#x63CF;&#x4E3B;&#x9898;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;scan_1&#xFF0C;scan_2&#xFF0C;scan_3&#x2026;&#x76F4;&#x81F3;<em>num_laser_scans</em>&#x5E76;&#x5305;&#x62EC;<em>&#x5728;&#x5185;</em>&#xFF09;&#x4F5C;&#x4E3A;SLAM&#x7684;&#x8F93;&#x5165;&#x3002;</li>
+</ul>
+<p>echoes (sensor_msgs/MultiEchoLaserScan)</p>
+<ul>
+<li>&#x652F;&#x6301;2D&#x548C;3D&#xFF08;&#x4F8B;&#x5982;&#xFF0C;&#x4F7F;&#x7528;&#x8F74;&#x5411;&#x65CB;&#x8F6C;&#x7684;&#x5E73;&#x9762;&#x6FC0;&#x5149;&#x626B;&#x63CF;&#x4EEA;&#xFF09;&#x3002;&#x5982;&#x679C;&#x5728;Lua&#x914D;&#x7F6E;&#x53C2;&#x8003;&#x6587;&#x6863;<em>&#x4E2D;&#x5C06;num_multi_echo_laser_scans</em>&#x8BBE;&#x7F6E;&#x4E3A;1&#xFF0C;&#x5219;&#x8BE5;&#x4E3B;&#x9898;&#x5C06;&#x7528;&#x4F5C;SLAM&#x7684;&#x8F93;&#x5165;&#x3002;&#x4EC5;&#x4F7F;&#x7528;&#x7B2C;&#x4E00;&#x4E2A;&#x56DE;&#x58F0;&#x3002;&#x5982;&#x679C;<em>num_multi_echo_laser_scans</em>&#x5927;&#x4E8E;1&#xFF0C;<em>&#x5219;&#x5C06;</em>&#x591A;&#x4E2A;&#x7F16;&#x53F7;&#x7684;&#x56DE;&#x58F0;&#x4E3B;&#x9898;&#xFF08;&#x5373;echoes_1&#xFF0C;echoes_2&#xFF0C;echoes_3&#x2026;&#x76F4;&#x81F3;<em>num_multi_echo_laser_scans</em>&#x5E76;&#x5305;&#x62EC;<em>num_multi_echo_laser_scans</em>&#xFF09;&#x7528;&#x4F5C;SLAM&#x7684;&#x8F93;&#x5165;&#x3002;</li>
+</ul>
+<p>points2 (sensor_msgs/PointCloud2)</p>
+<ul>
+<li>&#x5982;&#x679C;Lua&#x914D;&#x7F6E;&#x53C2;&#x8003;&#x6587;&#x6863;&#x4E2D;<em>num_point_clouds</em>&#x8BBE;&#x7F6E;&#x4E3A;1&#xFF0C;&#x5219;&#x6B64;&#x4E3B;&#x9898;&#x5C06;&#x7528;&#x4F5C;SLAM&#x7684;&#x8F93;&#x5165;&#x3002;&#x5982;&#x679C;<em>num_point_clouds</em>&#x5927;&#x4E8E;1&#xFF0C;&#x5219;&#x5C06;&#x4F7F;&#x7528;&#x591A;&#x4E2A;&#x7F16;&#x53F7;&#x7684;point2&#x4E3B;&#x9898;&#xFF08;&#x4F8B;&#x5982;&#xFF0C;points2_1&#xFF0C;points2_2&#xFF0C;points2_3&#xFF0C;&#x2026;&#x76F4;&#x5230;<em>num_point_clouds</em>&#x5E76;&#x5305;&#x62EC;<em>&#x5728;&#x5185;</em>&#xFF09;&#x4F5C;&#x4E3A;SLAM&#x7684;&#x8F93;&#x5165;&#x3002;</li>
+</ul>
+<p>&#x8FD8;&#x53EF;&#x4EE5;&#x8BA2;&#x9605;&#x5176;&#x4ED6;&#x4F20;&#x611F;&#x5668;&#x4E3B;&#x9898;:</p>
+<p>imu (sensor_msgs/Imu)</p>
+<ul>
+<li>&#x652F;&#x6301;2D&#xFF08;&#x53EF;&#x9009;&#xFF09;&#x548C;3D&#xFF08;&#x5FC5;&#x9700;&#xFF09;&#x3002;&#x8BE5;&#x4E3B;&#x9898;&#x5C06;&#x7528;&#x4F5C;SLAM&#x7684;&#x8F93;&#x5165;&#x3002;</li>
+</ul>
+<p>odom (nav_msgs/Odometry)</p>
+<ul>
+<li>&#x652F;&#x6301;2D&#xFF08;&#x53EF;&#x9009;&#xFF09;&#x548C;3D&#xFF08;&#x53EF;&#x9009;&#xFF09;&#x3002;&#x5982;&#x679C;&#x5728;Lua&#x914D;&#x7F6E;&#x53C2;&#x8003;&#x6587;&#x6863;&#x4E2D;&#x542F;&#x7528;&#x4E86;<em>use_odometry</em>&#xFF0C;&#x5219;&#x672C;&#x4E3B;&#x9898;&#x5C06;&#x7528;&#x4F5C;SLAM&#x7684;&#x8F93;&#x5165;&#x3002;</li>
+</ul>
+<h5 id="22&#x53D1;&#x5E03;&#x7684;topic">2.2&#x53D1;&#x5E03;&#x7684;Topic</h5>
+<p>scan_matched_points2 (sensor_msgs/PointCloud2)</p>
+<ul>
+<li>&#x70B9;&#x4E91;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x7528;&#x4E8E;&#x626B;&#x63CF;&#x5B50;&#x56FE;&#x5339;&#x914D;&#x3002;&#x6839;&#x636E;Lua&#x914D;&#x7F6E;&#x53C2;&#x8003;&#x6587;&#x6863;&#xFF0C;&#x53EF;&#x4EE5;&#x540C;&#x65F6;&#x8FC7;&#x6EE4;&#x548C;&#x6295;&#x5F71;&#x8BE5;&#x4E91;&#x3002;</li>
+</ul>
+<p>submap_list (cartographer_ros_msgs/SubmapList)</p>
+<ul>
+<li>&#x6240;&#x6709;&#x8F68;&#x8FF9;&#x7684;&#x6240;&#x6709;&#x5B50;&#x56FE;&#x5217;&#x8868;&#xFF0C;&#x5305;&#x62EC;&#x6BCF;&#x4E2A;&#x5B50;&#x56FE;&#x7684;&#x59FF;&#x6001;&#x548C;&#x6700;&#x65B0;&#x7248;&#x672C;&#x53F7;&#x3002;</li>
+</ul>
+<h5 id="23&#x670D;&#x52A1;">2.3&#x670D;&#x52A1;</h5>
+<p>submap_query&#xFF08;cartographer_ros_msgs / SubmapQuery&#xFF09;</p>
+<ul>
+<li>&#x83B7;&#x53D6;&#x8BF7;&#x6C42;&#x7684;&#x5B50;&#x56FE;&#x3002;</li>
+</ul>
+<p>start_trajectory&#xFF08;cartographer_ros_msgs / StartTrajectory&#xFF09;</p>
+<ul>
+<li>&#x4F7F;&#x7528;&#x9ED8;&#x8BA4;&#x4F20;&#x611F;&#x5668;&#x4E3B;&#x9898;&#x548C;&#x63D0;&#x4F9B;&#x7684;&#x914D;&#x7F6E;&#x5F00;&#x59CB;&#x8F68;&#x8FF9;&#x3002;&#x53EF;&#x4EE5;&#x968F;&#x610F;&#x6307;&#x5B9A;&#x521D;&#x59CB;&#x59FF;&#x52BF;&#x3002;&#x8FD4;&#x56DE;&#x5206;&#x914D;&#x7684;&#x8F68;&#x8FF9;ID&#x3002;</li>
+</ul>
+<p>trajectory_query&#xFF08;cartographer_ros_msgs / TrajectoryQuery&#xFF09;</p>
+<ul>
+<li>&#x4ECE;&#x59FF;&#x52BF;&#x56FE;&#x8FD4;&#x56DE;&#x8F68;&#x8FF9;&#x6570;&#x636E;&#x3002;</li>
+</ul>
+<p>finish_trajectory&#xFF08;cartographer_ros_msgs / FinishTrajectory&#xFF09;</p>
+<ul>
+<li>&#x901A;&#x8FC7;&#x8FD0;&#x884C;&#x6700;&#x7EC8;&#x4F18;&#x5316;&#x6765;&#x5B8C;&#x6210;&#x7ED9;&#x5B9A;trajectory_id&#x7684;&#x8F68;&#x8FF9;&#x3002;</li>
+</ul>
+<p>write_state&#xFF08;cartographer_ros_msgs / WriteState&#xFF09;</p>
+<ul>
+<li>&#x5C06;&#x5F53;&#x524D;&#x5185;&#x90E8;&#x72B6;&#x6001;&#x5199;&#x5165;&#x78C1;&#x76D8;&#x5230;filename&#x4E2D;&#x3002;&#x5982;&#x679C;&#x5DF2;&#x8BBE;&#x7F6E;&#xFF0C;&#x5219;&#x6587;&#x4EF6;&#x901A;&#x5E38;&#x4EE5;&#x301C;/ .ros&#x6216;ROS_HOME&#x7ED3;&#x5C3E;&#x3002;&#x8BE5;&#x6587;&#x4EF6;&#x53EF;&#x4EE5;&#x7528;&#x4F5C;asset_writer_main&#x7684;&#x8F93;&#x5165;&#xFF0C;&#x4EE5;&#x751F;&#x6210;&#x8D44;&#x4EA7;&#xFF0C;&#x4F8B;&#x5982;&#x6982;&#x7387;&#x7F51;&#x683C;&#xFF0C;X&#x5C04;&#x7EBF;&#x6216;PLY&#x6587;&#x4EF6;&#x3002;</li>
+</ul>
+<p>get_trajectory_states&#xFF08;cartographer_ros_msgs / GetTrajectoryStates&#xFF09;</p>
+<ul>
+<li>&#x8FD4;&#x56DE;&#x8F68;&#x8FF9;&#x7684;ID&#x548C;&#x72B6;&#x6001;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x8FD9;&#x5BF9;&#x4E8E;&#x4ECE;&#x5355;&#x72EC;&#x7684;&#x8282;&#x70B9;&#x89C2;&#x5BDF;cartographer&#x7684;&#x72B6;&#x6001;&#x5F88;&#x6709;&#x7528;&#x3002;</li>
+</ul>
+<p>read_metrics&#xFF08;cartographer_ros_msgs / ReadMetrics&#xFF09;</p>
+<ul>
+<li>&#x8FD4;&#x56DE;cartographer&#x6240;&#x6709;&#x5185;&#x90E8;&#x6307;&#x6807;&#x7684;&#x6700;&#x65B0;&#x503C;&#x3002;&#x8FD0;&#x884C;&#x65F6;&#x6307;&#x6807;&#x7684;&#x6536;&#x96C6;&#x662F;&#x53EF;&#x9009;&#x7684;&#xFF0C;&#x5FC5;&#x987B;&#x4F7F;&#x7528;<code>--collect_metrics</code>&#x8282;&#x70B9;&#x4E2D;&#x7684;&#x547D;&#x4EE4;&#x884C;&#x6807;&#x5FD7;&#x6FC0;&#x6D3B;&#x3002;</li>
+</ul>
+<h5 id="24&#x53C2;&#x6570;">2.4&#x53C2;&#x6570;</h5>
+<p>cartographer &#x4F7F;&#x7528; lua &#x914D;&#x7F6E;&#x53C2;&#x6570;&#xFF0C;&#x8BE6;&#x60C5;&#x53EF;&#x53C2;&#x8003;:<a href="https://google-cartographer-ros.readthedocs.io/en/latest/configuration.html" target="_blank">https://google-cartographer-ros.readthedocs.io/en/latest/configuration.html</a></p>
+<h4 id="3cartographer&#x4F7F;&#x7528;">3.cartographer&#x4F7F;&#x7528;</h4>
+<h5 id="31&#x7F16;&#x5199;launch&#x6587;&#x4EF6;">3.1&#x7F16;&#x5199;launch&#x6587;&#x4EF6;</h5>
+<p>&#x7F16;&#x5199;launch&#x6587;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x53C2;&#x8003;cartographer_ros &#x4E0B;&#x7684;demo&#x76F8;&#x5173;launch&#x6587;&#x4EF6;&#xFF0C;&#x6BD4;&#x5982;: demo revo lds.launch,&#x590D;&#x5236;&#x6587;&#x4EF6;&#x5185;&#x5BB9;,&#x5E76;&#x4FEE;&#x6539;&#x5982;&#x4E0B;:</p>
+<pre><code class="lang-xml"><span class="hljs-tag">&lt;<span class="hljs-name">launch</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">param</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;/use_sim_time&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;true&quot;</span> /&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;cartographer_node&quot;</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">&quot;cartographer_ros&quot;</span>
+      <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;cartographer_node&quot;</span> <span class="hljs-attr">args</span>=<span class="hljs-string">&quot;
+          -configuration_directory $(find mycar_nav)/configuration_files
+          -configuration_basename revo_lds.lua&quot;</span>
+      <span class="hljs-attr">output</span>=<span class="hljs-string">&quot;screen&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">remap</span> <span class="hljs-attr">from</span>=<span class="hljs-string">&quot;scan&quot;</span> <span class="hljs-attr">to</span>=<span class="hljs-string">&quot;scan&quot;</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">node</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;cartographer_occupancy_grid_node&quot;</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">&quot;cartographer_ros&quot;</span>
+      <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;cartographer_occupancy_grid_node&quot;</span> <span class="hljs-attr">args</span>=<span class="hljs-string">&quot;-resolution 0.05&quot;</span> /&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">node</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;rviz&quot;</span> <span class="hljs-attr">pkg</span>=<span class="hljs-string">&quot;rviz&quot;</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;rviz&quot;</span> <span class="hljs-attr">required</span>=<span class="hljs-string">&quot;true&quot;</span>
+      <span class="hljs-attr">args</span>=<span class="hljs-string">&quot;-d $(find cartographer_ros)/configuration_files/demo_2d.rviz&quot;</span> /&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-name">launch</span>&gt;</span>
+</code></pre>
+<p>&#x6838;&#x5FC3;&#x4EE3;&#x7801;:</p>
+<pre><code>-configuration_directory $(find mycar_nav)/configuration_files //&#x914D;&#x7F6E;&#x6587;&#x4EF6;&#x76EE;&#x5F55;
+-configuration_basename revo_lds.lua //&#x914D;&#x7F6E;&#x6587;&#x4EF6;
+....
+&lt;remap from=&quot;scan&quot; to=&quot;scan&quot; /&gt; //&#x8BBE;&#x7F6E;&#x96F7;&#x8FBE;topic
+</code></pre><h5 id="32&#x7F16;&#x5199;lua&#x6587;&#x4EF6;">3.2&#x7F16;&#x5199;lua&#x6587;&#x4EF6;</h5>
+<p>&#x5728;&#x529F;&#x80FD;&#x5305;&#x4E0B;&#x65B0;&#x5EFA; configuration_files &#x76EE;&#x5F55;&#xFF0C;&#x590D;&#x5236; cartographer ros &#x4E0B;&#x7684; revolds.lua &#x6587;&#x4EF6;&#xFF0C;&#x5E76;&#x4FEE;&#x6539;&#x5185;&#x5BB9;:</p>
+<pre><code>-- Copyright 2016 The Cartographer Authors
+--
+-- Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+-- you may not use this file except in compliance with the License.
+-- You may obtain a copy of the License at
+--
+--      http://www.apache.org/licenses/LICENSE-2.0
+--
+-- Unless required by applicable law or agreed to in writing, software
+-- distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+-- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+-- See the License for the specific language governing permissions and
+-- limitations under the License.
+
+include &quot;map_builder.lua&quot;
+include &quot;trajectory_builder.lua&quot;
+
+options = {
+  map_builder = MAP_BUILDER,
+  trajectory_builder = TRAJECTORY_BUILDER,
+  map_frame = &quot;map&quot;,
+  tracking_frame = &quot;laser&quot;,
+  published_frame = &quot;laser&quot;,
+  odom_frame = &quot;odom&quot;,
+  provide_odom_frame = true,
+  publish_frame_projected_to_2d = false,
+  use_odometry = false,
+  use_nav_sat = false,
+  use_landmarks = false,
+  num_laser_scans = 1,
+  num_multi_echo_laser_scans = 0,
+  num_subdivisions_per_laser_scan = 1,
+  num_point_clouds = 0,
+  lookup_transform_timeout_sec = 0.2,
+  submap_publish_period_sec = 0.3,
+  pose_publish_period_sec = 5e-3,
+  trajectory_publish_period_sec = 30e-3,
+  rangefinder_sampling_ratio = 1.,
+  odometry_sampling_ratio = 1.,
+  fixed_frame_pose_sampling_ratio = 1.,
+  imu_sampling_ratio = 1.,
+  landmarks_sampling_ratio = 1.,
+}
+
+MAP_BUILDER.use_trajectory_builder_2d = true
+
+TRAJECTORY_BUILDER_2D.submaps.num_range_data = 35
+TRAJECTORY_BUILDER_2D.min_range = 0.3
+TRAJECTORY_BUILDER_2D.max_range = 8.
+TRAJECTORY_BUILDER_2D.missing_data_ray_length = 1.
+TRAJECTORY_BUILDER_2D.use_imu_data = false
+TRAJECTORY_BUILDER_2D.use_online_correlative_scan_matching = true
+TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.linear_search_window = 0.1
+TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.translation_delta_cost_weight = 10.
+TRAJECTORY_BUILDER_2D.real_time_correlative_scan_matcher.rotation_delta_cost_weight = 1e-1
+
+POSE_GRAPH.optimization_problem.huber_scale = 1e2
+POSE_GRAPH.optimize_every_n_nodes = 35
+POSE_GRAPH.constraint_builder.min_score = 0.65
+
+return options
+</code></pre><p>&#x5173;&#x952E;&#x4EE3;&#x7801;:</p>
+<pre><code>tracking_frame = &quot;laser&quot; //&#x8BBE;&#x7F6E;&#x4E3A;&#x96F7;&#x8FBE;&#x7684; frame
+published_frame = &quot;laser&quot; //&#x8BBE;&#x7F6E;&#x4E3A;&#x96F7;&#x8FBE;&#x7684; frame
+</code></pre><h5 id="33&#x6267;&#x884C;">3.3&#x6267;&#x884C;</h5>
+<p>&#x6B64;&#x8FC7;&#x7A0B;&#x4E8E;gmapping&#x6267;&#x884C;&#x6D41;&#x7A0B;&#x7C7B;&#x4F3C;&#x3002;</p>
+<p>1.&#x5148;&#x542F;&#x52A8; Gazebo &#x4EFF;&#x771F;&#x73AF;&#x5883;&#xFF1B;</p>
+<p>2.&#x7136;&#x540E;&#x518D;&#x542F;&#x52A8;&#x5730;&#x56FE;&#x7ED8;&#x5236;&#x7684; launch &#x6587;&#x4EF6;&#xFF1B;</p>
+<p>3.&#x542F;&#x52A8;&#x952E;&#x76D8;&#x952E;&#x76D8;&#x63A7;&#x5236;&#x8282;&#x70B9;&#xFF0C;&#x7528;&#x4E8E;&#x63A7;&#x5236;&#x673A;&#x5668;&#x4EBA;&#x8FD0;&#x52A8;&#x5EFA;&#x56FE;</p>
+<p><code>rosrun teleop_twist_keyboard teleop_twist_keyboard.py</code></p>
+<p>4.&#x5728; rviz &#x4E2D;&#x6DFB;&#x52A0;&#x7EC4;&#x4EF6;&#xFF0C;&#x663E;&#x793A;&#x6805;&#x683C;&#x5730;&#x56FE;</p>
+<p><img src="../../assets/cartographerSLAM01.gif" alt=""></p>
+<p><img src="../../assets/cartographerSLAM02.gif" alt=""></p>
+<p><img src="../../assets/cartographerSLAM03.gif" alt=""></p>
+<p>5.&#x4F7F;&#x7528;map_server&#x4FDD;&#x5B58;&#x5730;&#x56FE;</p>
+<p><img src="../../assets/cartographer&#x5730;&#x56FE;.PNG" alt=""></p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="741-slamshi-xian-zhi-hector-slm.html" class="navigation navigation-prev " aria-label="Previous page: 7.4.1 SLAM实现之hector_slm">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="../75-ben-zhang-xiao-jie.html" class="navigation navigation-next " aria-label="Next page: 7.5 本章小结">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"7.4.2 SLAM实现之cartographer","level":"1.8.4.2","depth":3,"next":{"title":"7.5 本章小结","level":"1.8.5","depth":2,"path":"di-7-zhang-ji-qi-ren-dao-822a28-fang-771f29/75-ben-zhang-xiao-jie.md","ref":"di-7-zhang-ji-qi-ren-dao-822a28-fang-771f29/75-ben-zhang-xiao-jie.md","articles":[]},"previous":{"title":"7.4.1 SLAM实现之hector_slm","level":"1.8.4.1","depth":3,"path":"di-7-zhang-ji-qi-ren-dao-822a28-fang-771f29/74-slam/741-slamshi-xian-zhi-hector-slm.md","ref":"di-7-zhang-ji-qi-ren-dao-822a28-fang-771f29/74-slam/741-slamshi-xian-zhi-hector-slm.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":["expandable-chapters"],"pluginsConfig":{"expandable-chapters":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"di-7-zhang-ji-qi-ren-dao-822a28-fang-771f29/74-slam/742-slamshi-xian-zhi-cartographer.md","mtime":"2020-10-19T09:13:58.743Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2020-11-20T02:06:17.900Z"},"basePath":"../..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../../gitbook/gitbook.js"></script>
+    <script src="../../gitbook/theme.js"></script>
+    
+        
+        <script src="../../gitbook/gitbook-plugin-expandable-chapters/expandable-chapters.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
